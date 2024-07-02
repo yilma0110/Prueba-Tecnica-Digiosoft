@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Models\WorkorderModel;
+use App\Models\TecnicoModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class WorkorderController extends ResourceController{
@@ -11,8 +12,8 @@ class WorkorderController extends ResourceController{
     }
 
     public function getAll(){
-        $works = $this->model->findAll();
-        return $this->respond($works);
+        $workOrders = $this->model->WorksRelation();
+        return $this->respond($workOrders);
     }
 
     public function create(){
@@ -37,6 +38,7 @@ class WorkorderController extends ResourceController{
             }
 
             $work = $this->model->find($id);
+
             if($work == null){
                 return $this->failNotFound('No se ha encontrado el ID');
             }
@@ -94,4 +96,27 @@ class WorkorderController extends ResourceController{
         }
     }
 
+    //Método que regresa la infromación de las work Orders asignadas a un cliente indicado por el $id que recibe 
+    public function getWorksByTecnico($id = null){
+        try {
+            $modelTecnico = new TecnicoModel();
+
+            if($id == null){
+                return $this->failValidationErrors('Debe de proporcionar un ID');
+            }
+
+            $tecnico = $modelTecnico->find($id);
+
+            if($tecnico == null){
+                return $this->failNotFound('No se ha encontrado el ID');
+            }
+
+            //Ejecuta el método del modelo que relaciona la tabla de workorders con técnicos
+            $workOrders = $this->model->WorksRelation($id);
+            return $this->respond($workOrders);
+
+        } catch (\Exception $ex){
+            return $this->failServerError($ex, 'Error en el servidor');
+        }
+    }
 }

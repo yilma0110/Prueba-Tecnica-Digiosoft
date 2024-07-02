@@ -29,4 +29,6 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes){
     $routes->get('works/obtenerPorId/(:num)', 'WorkorderController::getById/$1');
     $routes->put('works/editar/(:num)', 'WorkorderController::update/$1');
     $routes->delete('works/eliminar/(:num)', 'WorkorderController::delete/$1');
+
+    $routes->get('works/worksPorTecnico/(:num)', 'WorkorderController::getWorksByTecnico/$1');
 });
