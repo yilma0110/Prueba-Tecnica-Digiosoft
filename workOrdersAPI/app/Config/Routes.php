@@ -22,4 +22,11 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes){
     $routes->get('tecnicos/obtenerPorId/(:num)', 'TecnicoController::getById/$1');
     $routes->put('tecnicos/editar/(:num)', 'TecnicoController::update/$1');
     $routes->delete('tecnicos/eliminar/(:num)', 'TecnicoController::delete/$1');
+
+    //Work orders
+    $routes->get('works', 'WorkorderController::getAll');
+    $routes->post('works/crear', 'WorkorderController::create');
+    $routes->get('works/obtenerPorId/(:num)', 'WorkorderController::getById/$1');
+    $routes->put('works/editar/(:num)', 'WorkorderController::update/$1');
+    $routes->delete('works/eliminar/(:num)', 'WorkorderController::delete/$1');
 });
