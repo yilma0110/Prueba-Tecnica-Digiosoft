@@ -2,25 +2,25 @@
 
 namespace App\Controllers\Api;
 
-use App\Models\TecnicoModel;
+use App\Models\WorkorderModel;
 use CodeIgniter\RESTful\ResourceController;
 
-class TecnicoController extends ResourceController{
+class WorkorderController extends ResourceController{
     public function __construct() {
-        $this->model = $this->setModel(new TecnicoModel());
+        $this->model = $this->setModel(new WorkorderModel());
     }
 
     public function getAll(){
-        $tecnicos = $this->model->findAll();
-        return $this->respond($tecnicos);
+        $works = $this->model->findAll();
+        return $this->respond($works);
     }
 
     public function create(){
         try {
-            $tecnico = $this->request->getJSON();
+            $work = $this->request->getJSON();
 
-            if($this->model->save($tecnico)){
-                return $this->respondCreated($tecnico);
+            if($this->model->save($work)){
+                return $this->respondCreated($work);
             }else{
                 return $this->failValidationErrors($this->model->validation->listErrors());
             }
@@ -36,12 +36,12 @@ class TecnicoController extends ResourceController{
                 return $this->failValidationErrors('Debe de proporcionar un ID');
             }
 
-            $tecnico = $this->model->find($id);
-            if($tecnico == null){
+            $work = $this->model->find($id);
+            if($work == null){
                 return $this->failNotFound('No se ha encontrado el ID');
             }
 
-            return $this->respond($tecnico);
+            return $this->respond($work);
 
         } catch (\Exception $ex){
             return $this->failServerError('Error en el servidor');
@@ -54,21 +54,21 @@ class TecnicoController extends ResourceController{
                 return $this->failValidationErrors('Debe de proporcionar un ID');
             }
 
-            $tecnico = $this->model->find($id);
-            if($tecnico == null){
+            $works = $this->model->find($id);
+            if($works == null){
                 return $this->failNotFound('No se ha encontrado el ID');
             }
 
             $json = $this->request->getJSON();
             if($this->model->update($id, $json)){
-                $json->IdTecnico = $id;
+                $json->IdWorkOrder = $id;
                 return $this->respondUpdated($json);
             }else{
                 return $this->failValidationErrors($this->model->validation->listErrors());
             }
 
         } catch (\Exception $ex){
-            return $this->failServerError($ex, 'Error en el servidor');
+            return $this->failServerError('Error en el servidor');
         }
     }
 
@@ -78,13 +78,13 @@ class TecnicoController extends ResourceController{
                 return $this->failValidationErrors('Debe de proporcionar un ID');
             }
 
-            $tecnico = $this->model->find($id);
-            if($tecnico == null){
+            $work = $this->model->find($id);
+            if($work == null){
                 return $this->failNotFound('No se ha encontrado el ID');
             }
 
             if($this->model->delete($id)){
-                return $this->respondDeleted($tecnico);
+                return $this->respondDeleted($work);
             }else{
                 return $this->failServerError('Fallo al eliminar registro');
             }

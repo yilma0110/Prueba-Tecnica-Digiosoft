@@ -26,15 +26,14 @@ class ClienteController extends ResourceController
             //se recibe el cuerpo en formato json del request en el objeto de $cliente
             $cliente = $this->request->getJSON();
 
-            return $this->respondCreated($cliente);
-            /*if($this->model->save($data)){
-                return $this->respondCreated($data);
+            if($this->model->save($cliente)){
+                return $this->respondCreated($cliente);
             }else{
                 return $this->failValidationErrors($this->model->validation->listErrors());
-            }*/
+            }
 
         } catch (\Exception $ex){
-            return $this->failServerError('Error en el servidor');
+            return $this->failServerError($ex, 'Error en el servidor');
         }
     }
 
