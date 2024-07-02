@@ -18,12 +18,13 @@ class TecnicoController extends ResourceController{
     public function create(){
         try {
             $tecnico = $this->request->getJSON();
+            return $this->respondCreated($tecnico);
 
-            if($this->model->save($tecnico)){
+            /*if($this->model->create($tecnico)){
                 return $this->respondCreated($tecnico);
             }else{
                 return $this->failValidationErrors($this->model->validation->listErrors());
-            }
+            }*/
 
         } catch (\Exception $ex){
             return $this->failServerError('Error en el servidor');
