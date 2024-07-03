@@ -6,6 +6,7 @@
     <title>Clientes</title>
     <link rel="stylesheet" href="../css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="../css/dataTables.Bootstrap5.css">
+    <link rel="stylesheet" href="../css/clientes.css">
 
 </head>
 <body>
@@ -82,18 +83,22 @@
     <div class="container my-4">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <table class="table">
+                <table id="dataTable_clientes" class="table">
                     <thead>
                         <tr>
-                            <th>Id Cliente</th>
-                            <th>Nombre</th>
-                            <th>Teléfono</th>
-                            <th>E-mail</th>
-                            <th>Estatus</th>
-                            <th>Fecha Alta</th>
-                            <th>Última modificación</th>
+                            <th class="centered">Id Cliente</th>
+                            <th class="centered">Nombre</th>
+                            <th class="centered">Teléfono</th>
+                            <th class="centered">E-mail</th>
+                            <th class="centered">Fecha Alta</th>
+                            <th class="centered">Última modificación</th>
+                            <th class="centered">Estatus</th>
+                            <th class="centered">Opciones</th>
                         </tr>
                     </thead>
+                    <tbody id="tableBody_clientes">
+                        
+                    </tbody>
 
                 </table>
             </div>
