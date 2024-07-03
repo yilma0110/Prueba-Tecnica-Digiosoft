@@ -76,11 +76,12 @@
                 <li aria-current="page" class="breadcrumb-item active">Clientes</li>
             </ol>
         </nav>
-
     </div>
 
     <!-------------------------------DataTable Clientes-------------------------------->
     <div class="container my-4">
+        <button type="button" class="btn btn-primary mb-4"> <i class="fa-solid fa-plus"></i> Agregar</button>
+
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <table id="dataTable_clientes" class="table">
@@ -88,6 +89,8 @@
                         <tr>
                             <th class="centered">Id Cliente</th>
                             <th class="centered">Nombre</th>
+                            <th class="centered">Apellido 1</th>
+                            <th class="centered">Apellido 2</th>
                             <th class="centered">Teléfono</th>
                             <th class="centered">E-mail</th>
                             <th class="centered">Fecha Alta</th>
@@ -104,6 +107,82 @@
             </div>
         </div>
 
+    </div>
+
+    
+
+    <!--------------------------Modal para editar al cliente ------------------------->
+    <div class="modal fade" id="mi-modal" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Cabecera del modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Modificar información de cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Cuerpo del modal -->
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <form>
+                            <div class="row mb-3">
+                                <label class="col-3 col-form-label">Id Cliente: </label>
+                                <label class="col-9 col-form-label" id="id">idCliente</label>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-3 col-form-label" for="nombre">Nombre: </label>
+                                <div class="col-9">
+                                    <input type="text" name="" id="nombre" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-3 col-form-label" for="apellido1">Apellido 1: </label>
+                                <div class="col-3">
+                                    <input type="text" name="" id="apellido1" class="form-control">
+                                </div>
+                                
+                                <label class="col-3 col-form-label" for="apellido2">Apellido 2: </label>
+                                <div class="col-3">
+                                    <input type="text" name="" id="apellido2" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-3 col-form-label" for="email">E-mail: </label>
+                                <div class="col-9">
+                                    <input type="text" name="" id="email" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-3 col-form-label" for="telefono">Tel: </label>
+                                <div class="col-3">
+                                    <input type="text" name="" id="telefono" class="form-control">
+                                </div>
+
+                                <label class="col-3 col-form-label" for="estatus">Estatus: </label>
+                                <div class="col-3">
+                                    <select class="form-select" aria-label="Default select example" id="estatus">
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer del modal -->
+                <div class="modal-footer">
+                    <button type="button"  data-bs-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+                    <button type="button" class="btn btn-success">Guardar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
