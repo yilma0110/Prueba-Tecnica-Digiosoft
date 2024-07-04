@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="../css/dataTables.Bootstrap5.css">
     <link rel="stylesheet" href="../css/clientes.css">
+    <link rel="stylesheet" href="../css/sweetalert.css">
 </head>
 <body>
 
@@ -66,7 +67,6 @@
     </div>
     
 
-
     <!-------------------------------  Breadcrumb ------------------------------------->
     <div class="container py-4">
         <nav aria-label="breadcrumb">
@@ -80,10 +80,65 @@
 
     </div>
 
+    <!------------------------------DataTable WorkOrders------------------------------->
+    <div class="container my-4">
+        <button data-bs-toggle="modal" data-bs-target="#mi-modal" type="button" id="btn_agregar" class="btn btn-primary mb-4"> <i class="fa-solid fa-plus"></i> Agregar</button>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <table id="dataTable_works" class="table">
+                    <thead>
+                        <tr>
+                            <th class="centered">Id Orden</th>
+                            <th class="centered">Comentario</th>
+                            <th class="centered">Tipo de servicio</th>
+                            <th class="centered">Servicio</th>
+                            <th class="centered">Técnico</th>
+                            <th class="centered">Cliente</th>
+                            <th class="centered">Fecha alta</th>
+                            <th class="centered">Última modificación</th>
+                            <th class="centered">Estatus</th>
+                            <th class="centered">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody_works">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------------------Modal--------------------------------------->
+    <div class="modal fade" id="mi-modal" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Cabecera del modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="title_modal">Titulo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Cuerpo del modal -->
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <form id="form" class="needs-validation" novalidate>   
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer del modal -->
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/bootstrap/bootstrap.js"></script>
     <script src="https://kit.fontawesome.com/c5fd472c7a.js" crossorigin="anonymous"></script>
     <script src="../js/jQuery.js"></script>
     <script src="../js/dataTables.js"></script>
     <script src="../js/dataTables.Bootstrap5.js"></script>
+    <script src="../js/workOrders.js"></script>
+    <script src="../js/sweetalert.js"></script>
 </body>
 </html>

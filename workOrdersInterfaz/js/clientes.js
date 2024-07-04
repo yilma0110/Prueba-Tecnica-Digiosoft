@@ -3,38 +3,38 @@ let dataTable;
 let dataTableIsInitialized;
 
 //Inicializa la tabla de clientes como dataTable
-const initDataTable = async () =>{
-    if(dataTableIsInitialized){
+const initDataTable = async () => {
+    if (dataTableIsInitialized) {
         dataTable.destroy();
     }
 
     await listarClientes();
 
-    dataTable=$("#dataTable_clientes").dataTable({
+    dataTable = $("#dataTable_clientes").dataTable({
         language: {
             "url": "https://cdn.datatables.net/plug-ins/1.13.1/i18n/es-ES.json"
         },
-        pageLength : 5,
+        pageLength: 5,
         lengthMenu: [[5, 10, 15, 20, -1], [5, 10, 15, 20, 'Todos']],
-        columnDefs:[
+        columnDefs: [
             {
-                className: "centered", 
-                targets:[0,1,2,3,4,5,6]  
+                className: "centered",
+                targets: [0, 1, 2, 3, 4, 5, 6]
             }
         ]
     });
 
     dataTableIsInitialized = true;
-    
+
 }
 
 //Ejecuta la petición fetch  para obtener todos los clientes y los inserta en la tabla
-async function listarClientes(){
-    try{
+async function listarClientes() {
+    try {
         let options = {
-            method:"GET",
+            method: "GET",
             headers: {
-                "Content-Type":"application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8"
             },
         };
         const resp = await fetch(UrlApi + "clientes", options);
@@ -51,7 +51,7 @@ async function listarClientes(){
                         <td>${element.Email}</td>
                         <td>${element.CreatedAt}</td>
                         <td>${element.UpdatedAt}</td>
-                        <td>${element.Estatus == '1'? element.Estatus = 'Activo' : element.Estatus = 'Inactivo' } </td>
+                        <td>${element.Estatus == '1' ? element.Estatus = 'Activo' : element.Estatus = 'Inactivo'} </td>
                         <td> 
                             <button name="editar" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#mi-modal" > <i class="fa-solid fa-pencil"></i> </button>
                             <button class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash-can"></i> </button>
@@ -60,18 +60,18 @@ async function listarClientes(){
         });
 
         tableBody_clientes.innerHTML = content;
-    }catch(ex){
+    } catch (ex) {
         console.log(ex);
-    }   
+    }
 };
 
 //Ejecuta la petición para Agregar nuevo cliente
-async function agregarCliente(){
-    try{
+async function agregarCliente() {
+    try {
         let options = {
-            method:"POST",
+            method: "POST",
             headers: {
-                "Content-Type":"application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify({
                 Nombre: nombre.value,
@@ -85,8 +85,8 @@ async function agregarCliente(){
 
         const resp = await fetch(UrlApi + "clientes/crear", options);
         console.log(resp)
-        
-        if(resp.ok){
+
+        if (resp.ok) {
             $('#mi-modal').modal('hide')
             Swal.fire({
                 title: "Correcto!",
@@ -99,33 +99,33 @@ async function agregarCliente(){
                     location.reload();
                 }
             });
-            
-        }else if(resp.status == 500){
+
+        } else if (resp.status == 500) {
             Swal.fire({
                 title: "Error!",
                 text: "Ha ocurrido un error",
                 icon: "error"
             });
-        }else{
+        } else {
             Swal.fire({
                 title: "Error!",
                 text: "Verifique que sus datos sean correctos",
                 icon: "error"
             });
         }
-        
-    }catch(ex){
+
+    } catch (ex) {
         console.log(ex);
-    }   
+    }
 };
 
 //Ejecuta la petición para Modificar un cliente
-async function editarCliente(){
-    try{
+async function editarCliente() {
+    try {
         let options = {
-            method:"PUT",
+            method: "PUT",
             headers: {
-                "Content-Type":"application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify({
                 Nombre: nombre.value,
@@ -139,8 +139,8 @@ async function editarCliente(){
 
         const resp = await fetch(UrlApi + "clientes/editar/" + id.innerHTML, options);
         console.log(resp)
-        
-        if(resp.ok){
+
+        if (resp.ok) {
             $('#mi-modal').modal('hide')
             Swal.fire({
                 title: "Correcto!",
@@ -153,48 +153,48 @@ async function editarCliente(){
                     location.reload();
                 }
             });
-        }else if(resp.status == 500){
+        } else if (resp.status == 500) {
             Swal.fire({
                 title: "Error!",
                 text: "Ha ocurrido un error",
                 icon: "error"
             });
-        }else{
+        } else {
             Swal.fire({
                 title: "Error!",
                 text: "Verifique que sus datos sean correctos",
                 icon: "error"
             });
         }
-        
-    }catch(ex){
+
+    } catch (ex) {
         console.log(ex);
-    }   
+    }
 };
 
-window.addEventListener("load", async()=>{
+window.addEventListener("load", async () => {
     await initDataTable();
 
 });
 
 //Evento para controlar el click a un botón de opciones en la tabla
-dataTable_clientes.addEventListener("click", (e)=>{
+dataTable_clientes.addEventListener("click", (e) => {
     e.stopPropagation();
     //Toma los datos de la fila donde se encuentra el botón al que se le dio click
     let clienteSelected = (e.target.parentElement.parentElement.children);
-    if(e.target.name == 'editar'){
+    if (e.target.name == 'editar') {
         createForm('editar');
         fillData(clienteSelected);
     }
 });
 
-btn_agregar.addEventListener("click", (e) =>{
+btn_agregar.addEventListener("click", (e) => {
     e.stopPropagation();
     createForm('agregar');
 })
 
 //Llena el formulario del modal con la información del cliente seleccionado
-const fillData = (data) =>{
+const fillData = (data) => {
     id.innerHTML = data[0].textContent;
     nombre.value = data[1].textContent;
     apellido1.value = data[2].textContent;
@@ -205,11 +205,11 @@ const fillData = (data) =>{
 }
 
 //Crear formulario para el modal, recibe el tipo de modal: editar o agregar
-const createForm =(mode)=>{
+const createForm = (mode) => {
     ResetForm(document.getElementById('form'))
 
     let content = ``;
-    if(mode == 'editar'){
+    if (mode == 'editar') {
         content += `<div class="row mb-2">
                                 <label class="col-3 col-form-label">Id Cliente: </label>
                                 <label class="col-9 col-form-label" id="id">idCliente</label>
@@ -268,7 +268,7 @@ const createForm =(mode)=>{
                                 </div>
                             </div>
                             `;
-    if(mode == 'editar'){
+    if (mode == 'editar') {
         content += `<div class="row mb-3">
                         <label class="col-3 col-form-label" for="estatus">Estatus: </label>
                         <div class="col-4">
@@ -284,23 +284,23 @@ const createForm =(mode)=>{
                     <button type="button"  data-bs-dismiss="modal" class="btn btn-secondary col-3 position-absolute start-50">Cancelar</button>
                     <button type="submit" class="btn btn-success col-3 position-absolute end-0" onclick="btnGuardar()">Guardar</button>
                 </div>`;
-    
+
     //Inserta los componentes HTML al formulario del modal
     form.innerHTML = content;
 
     //Agrega el titulo dependiendo si la operación a realizar es editar o modificar
-    mode == 'agregar' ?  title_modal.innerHTML = 'Agregar nuevo cliente' : title_modal.innerHTML = 'Modificar cliente existente';
+    mode == 'agregar' ? title_modal.innerHTML = 'Agregar nuevo cliente' : title_modal.innerHTML = 'Modificar cliente existente';
 }
 
 //Evento click con el método que realiza el botón Guardar dentro del modal
-function btnGuardar(){
-    if(title_modal.innerHTML == 'Agregar nuevo cliente'){
-        if(form.checkValidity()){
+function btnGuardar() {
+    if (title_modal.innerHTML == 'Agregar nuevo cliente') {
+        if (form.checkValidity()) {
             agregarCliente();
         }
-        
-    }else if(title_modal.innerHTML == 'Modificar cliente existente'){
-        if(form.checkValidity()){
+
+    } else if (title_modal.innerHTML == 'Modificar cliente existente') {
+        if (form.checkValidity()) {
             console.log(id.innerHTML)
             editarCliente();
         }
@@ -309,25 +309,25 @@ function btnGuardar(){
 //Validacion de los campos del formulario en el modal
 (function () {
     'use strict'
-  
+
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
-  
+
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault()
-            event.stopPropagation()
-          form.classList.add('was-validated')
-        }, false)
-      })
-  })()
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault()
+                event.stopPropagation()
+                form.classList.add('was-validated')
+            }, false)
+        })
+})()
 
 
 function ResetForm(form) {
     form.classList.remove('was-validated');
     form.querySelectorAll(".is-invalid").forEach(el => el.classList.remove('is-invalid'));
-    
+
     form.reset();
 }

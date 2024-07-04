@@ -31,4 +31,9 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes){
     $routes->delete('works/eliminar/(:num)', 'WorkorderController::delete/$1');
 
     $routes->get('works/worksPorTecnico/(:num)', 'WorkorderController::getWorksByTecnico/$1');
+
+    //Servicios
+    $routes->get('servicios', 'ServicioController::getAll');
+    $routes->post('servicios/crear', 'ServicioController::create');
+    $routes->delete('servicios/eliminar/(:num)', 'ServicioController::delete/$1');
 });
