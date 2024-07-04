@@ -2,15 +2,15 @@ let UrlApi = "http://localhost:8080/api/";
 let dataTable;
 let dataTableIsInitialized;
 
-//Inicializa la tabla de clientes como dataTable
+//Inicializa la tabla de tecnicos como dataTable
 const initDataTable = async () =>{
     if(dataTableIsInitialized){
         dataTable.destroy();
     }
 
-    await listarClientes();
+    await listar();
 
-    dataTable=$("#dataTable_clientes").dataTable({
+    dataTable=$("#dataTable_tecnicos").dataTable({
         language: {
             "url": "https://cdn.datatables.net/plug-ins/1.13.1/i18n/es-ES.json"
         },
@@ -28,8 +28,8 @@ const initDataTable = async () =>{
     
 }
 
-//Ejecuta la petición fetch  para obtener todos los clientes y los inserta en la tabla
-async function listarClientes(){
+//Ejecuta la petición fetch  para obtener todos los tecnicos y los inserta en la tabla
+async function listar(){
     try{
         let options = {
             method:"GET",
@@ -37,13 +37,13 @@ async function listarClientes(){
                 "Content-Type":"application/json;charset=utf-8"
             },
         };
-        const resp = await fetch(UrlApi + "clientes", options);
+        const resp = await fetch(UrlApi + "tecnicos", options);
         const data = await resp.json();
-
+        
         let content = ``;
         data.forEach(element => {
             content += `<tr>
-                        <td>${element.IdCliente}</td>
+                        <td>${element.IdTecnico}</td>
                         <td>${element.Nombre}</td>
                         <td>${element.Apellido1}</td>
                         <td>${element.Apellido2}</td>
@@ -59,14 +59,14 @@ async function listarClientes(){
                     </tr>`;
         });
 
-        tableBody_clientes.innerHTML = content;
+        tableBody_tecnicos.innerHTML = content;
     }catch(ex){
         console.log(ex);
     }   
 };
 
-//Ejecuta la petición para Agregar nuevo cliente
-async function agregarCliente(){
+//Ejecuta la petición para Agregar nuevo tecnico
+async function agregar(){
     try{
         let options = {
             method:"POST",
@@ -83,14 +83,14 @@ async function agregarCliente(){
             })
         };
 
-        const resp = await fetch(UrlApi + "clientes/crear", options);
+        const resp = await fetch(UrlApi + "tecnicos/crear", options);
         console.log(resp)
         
         if(resp.ok){
             $('#mi-modal').modal('hide')
             Swal.fire({
                 title: "Correcto!",
-                text: "Cliente registrado con éxito",
+                text: "Tecnico registrado con éxito",
                 icon: "success",
                 timer: 3000,
                 timerProgressBar: true,
@@ -119,8 +119,8 @@ async function agregarCliente(){
     }   
 };
 
-//Ejecuta la petición para Modificar un cliente
-async function editarCliente(){
+//Ejecuta la petición para Modificar un tecnico existente
+async function editar(){
     try{
         let options = {
             method:"PUT",
@@ -137,14 +137,14 @@ async function editarCliente(){
             })
         };
 
-        const resp = await fetch(UrlApi + "clientes/editar/" + id.innerHTML, options);
+        const resp = await fetch(UrlApi + "tecnicos/editar/" + id.innerHTML, options);
         console.log(resp)
         
         if(resp.ok){
             $('#mi-modal').modal('hide')
             Swal.fire({
                 title: "Correcto!",
-                text: "Cliente modificado con éxito",
+                text: "Tecnico modificado con éxito",
                 icon: "success",
                 timer: 5000,
                 timerProgressBar: true,
@@ -178,7 +178,7 @@ window.addEventListener("load", async()=>{
 });
 
 //Evento para controlar el click a un botón de opciones en la tabla
-dataTable_clientes.addEventListener("click", (e)=>{
+dataTable_tecnicos.addEventListener("click", (e)=>{
     e.stopPropagation();
     //Toma los datos de la fila donde se encuentra el botón al que se le dio click
     let clienteSelected = (e.target.parentElement.parentElement.children);
@@ -289,23 +289,24 @@ const createForm =(mode)=>{
     form.innerHTML = content;
 
     //Agrega el titulo dependiendo si la operación a realizar es editar o modificar
-    mode == 'agregar' ?  title_modal.innerHTML = 'Agregar nuevo cliente' : title_modal.innerHTML = 'Modificar cliente existente';
+    mode == 'agregar' ?  title_modal.innerHTML = 'Agregar nuevo tecnico' : title_modal.innerHTML = 'Modificar tecnico existente';
 }
 
 //Evento click con el método que realiza el botón Guardar dentro del modal
 function btnGuardar(){
-    if(title_modal.innerHTML == 'Agregar nuevo cliente'){
+    if(title_modal.innerHTML == 'Agregar nuevo tecnico'){
         if(form.checkValidity()){
-            agregarCliente();
+            agregar();
         }
         
-    }else if(title_modal.innerHTML == 'Modificar cliente existente'){
+    }else if(title_modal.innerHTML == 'Modificar tecnico existente'){
         if(form.checkValidity()){
             console.log(id.innerHTML)
-            editarCliente();
+            editar();
         }
     }
 }
+
 //Validacion de los campos del formulario en el modal
 (function () {
     'use strict'

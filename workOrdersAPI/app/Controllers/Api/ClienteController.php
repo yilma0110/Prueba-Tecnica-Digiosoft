@@ -29,7 +29,11 @@ class ClienteController extends ResourceController
             if($this->model->save($cliente)){
                 return $this->respondCreated($cliente);
             }else{
-                return $this->failValidationErrors($this->model->validation->listErrors());
+                $errors = $this->model->validation->listErrors();
+                preg_match_all('/<li>(.*?)<\/li>/', $errors, $matches);
+                $errorMessages = $matches[1];
+
+                return $this->failValidationErrors($errorMessages);
             }
 
         } catch (\Exception $ex){

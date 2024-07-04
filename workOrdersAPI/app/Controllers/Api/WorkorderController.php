@@ -23,7 +23,7 @@ class WorkorderController extends ResourceController{
             if($this->model->save($work)){
                 return $this->respondCreated($work);
             }else{
-                return $this->failValidationErrors($this->model->validation->listErrors());
+                return $this->failValidationErrors('Ha ocurrido un error ', $this->model->validation->listErrors());
             }
 
         } catch (\Exception $ex){
