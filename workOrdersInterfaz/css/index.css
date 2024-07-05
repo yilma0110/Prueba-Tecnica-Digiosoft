@@ -14,7 +14,7 @@
 }
 
 .hero-section .container{
-    height: 100vh;
+    height: 85vh;
     position: relative;
 }
 
@@ -27,5 +27,7 @@
 }
 
 .navColor{
-    background-color: #803A00;
+    background-color: #fba360;
 }
+
+

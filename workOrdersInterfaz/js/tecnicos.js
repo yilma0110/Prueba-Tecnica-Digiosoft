@@ -54,7 +54,7 @@ async function listar() {
                         <td>${element.Estatus == '1' ? element.Estatus = 'Activo' : element.Estatus = 'Inactivo'} </td>
                         <td> 
                             <button name="editar" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#mi-modal" > <i class="fa-solid fa-pencil"></i> </button>
-                            <button class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash-can"></i> </button>
+                            <button name="eliminar" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash-can"></i> </button>
                         </td>
                     </tr>`;
         });
@@ -172,6 +172,48 @@ async function editar() {
     }
 };
 
+//Ejecuta la petición para eliminar un técnico seleccionado
+async function eliminar(idSelected){
+    try{
+        let options = {
+            method:"DELETE",
+            headers: {
+                "Content-Type":"application/json;charset=utf-8"
+            }
+        };
+        const resp = await fetch(UrlApi + "tecnicos/eliminar/" + idSelected, options);
+
+        if(resp.ok){
+            $('#mi-modal').modal('hide')
+            Swal.fire({
+                title: "Correcto!",
+                text: "Técnico eliminado con éxito",
+                icon: "success",
+                timer: 3000,
+                timerProgressBar: true,
+                didClose: () => {
+                    location.reload();
+                }
+            });
+            
+        }else if(resp.status == 500){
+            Swal.fire({
+                title: "Error!",
+                text: "Ha ocurrido un error",
+                icon: "error"
+            });
+        }else{
+            Swal.fire({
+                title: "Error!",
+                text: "Verifique que sus datos sean correctos",
+                icon: "error"
+            });
+        }
+    }catch(ex){
+        console.log(ex);
+    }   
+}
+
 window.addEventListener("load", async () => {
     await initDataTable();
 
@@ -185,6 +227,24 @@ dataTable_tecnicos.addEventListener("click", (e) => {
     if (e.target.name == 'editar') {
         createForm('editar');
         fillData(clienteSelected);
+    }else if(e.target.name == 'eliminar'){
+        //Pedir confirmacion antes de proceder a eliminar registro
+        let idSelected = clienteSelected[0].textContent;
+
+        Swal.fire({
+            title: `¿Estás seguro de eliminar el técnico con ID ${idSelected} ?`,
+            text: "Esta acción no se puede deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "SÍ, continuar",
+            cancelButtonText:"NO, cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+              eliminar(idSelected)
+            }
+        });
     }
 });
 
